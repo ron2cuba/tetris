@@ -1,5 +1,5 @@
+let canvas = document.getElementById('canvas');
 let ctx = document.querySelector("#canvas").getContext('2d');
-ctx.width = 500;
-ctx.height = 500;
-
-ctx.fillRect()
+canvas.width = 240;
+canvas.height = 400;
+ctx.fillRect(0, 0, canvas.width, canvas.height);
