@@ -4,5 +4,35 @@
     box-sizing: border-box;
 }
 body{
-    
+    display: flex;
+    align-items: center;   
+    justify-content: center;
+}
+canvas { 
+    margin-top: 1rem;
+    border: 1px solid #000;
+    box-shadow: 1px 1px 5px 0px rgba(173,173,173,1);
+}
+table{
+    border: 1px solid;
+    margin-left: auto;
+    margin-right: auto;
+    width:100%;
+}
+thead{
+    background-color: rgb(163, 150, 128);
+    color:#fff;
+}
+.start{
+    width: 100%;
+    background-color: rgb(163, 150, 128);
+    color:#fff;
+    text-align: center;
+}
+.infos{
+    padding: 1rem;
+    margin-right: 1rem;
+    background-color: rgb(190, 160, 112);
+    box-shadow: 1px 1px 5px 0px rgba(173,173,173,1);
+    border-radius: 1rem;
 }
