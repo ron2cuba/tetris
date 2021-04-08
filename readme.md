@@ -1,7 +1,7 @@
 # Tetris
 
 ## Premiere étape
-Préparation du canvas et log du javascript et écriture d'une boucle foreEach pour lire notre matrice.
+Préparation du canvas et log du javascript et écriture d'une boucle foreEach pour lire la matrice constructrice (inspiration: `Tilemap`).
 ```js
 let canvas = document.getElementById('canvas');
 let ctx = document.querySelector("#canvas").getContext('2d');
@@ -10,7 +10,8 @@ canvas.height = 400;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.scale(20, 20);
 
-// grille
+
+// matrice constructrice
 const matrix = [
     [0,0,0],
     [1,1,1],
@@ -54,4 +55,83 @@ function drawMatrix(matrix, offset){
 }
 
 drawMatrix(matrix, {x:5,y:5});
+```
+## Keyhandler
+ecouter des evenements du clavier sur des touches définies pour permettre la rotation des pieces.
+Un `console.log` de l'evenemment pour avoir le `keycode` des touches utilsées.
+
+```js
+...
+// astuce pour trouver les codes
+document.addEventListener('keydown', (e)=>{
+ console.log(e);
+});
+...
+/**
+ * keyHandling
+ */
+document.addEventListener('keydown', (e)=>{
+ if( e.key == "ArrowLeft" ){
+    console.log("left pressed");
+ } else if(e.key == "ArrowRight"){
+    console.log("right pressed");
+ } else if(e.key == "ArrowDown"){
+    console.log("down pressed");
+ }
+});
+```
+Maintenant que les touches sont déterminées, il faut se dire que les pieces auront une postion courante. Le mieux est de faire un objet `currentElement` qui aura une postition (qui sera amenée à évoluée par la suite) en x et en y  et un modèle pièce.
+```js
+...
+let currentElement = {
+    pos: {x:4, y:0},
+    matrix: matrix,
+}
+```
+Bien se rappeler que la position courante est fixée dans `drawMatrix`.
+Donc quand on presse une touche associée à un eventListener, il faut incrémenter ou décrémenter cette valeur quand drawMatrix sera appelé.
+```js
+...
+
+drawMatrix(currentElement.matrix, currentElement.pos);
+
+/**
+ * keyHandling
+ */
+ document.addEventListener('keydown', (e)=>{
+    if( e.key == "ArrowLeft" ){
+        console.log("before left pressed:", currentElement.pos.x);
+       currentElement.pos.x--;
+       console.log("left pressed", currentElement.pos.x);
+    } else if(e.key == "ArrowRight"){
+       currentElement.pos.x++
+    } else if(e.key == "ArrowDown"){
+       currentElement.pos.y++;
+    } else if(e.key == "Space"){
+        console.log(" rotaion de la pièce");
+    }
+});
+
+```
+La fonction est prête mais rien ne se passe.
+
+La cause :
+
+le canvas doit être rafraichit pour que la position soit modifiée. L'API du canvas supporte cela avec le `requestAnimationFrame`. Si on imagine une fonction update qui se chargera d'appeler cette méthode du canvas cela donne :
+```js
+...
+let currentElement = {
+    pos: {x:4, y:0},
+    matrix: matrix,
+}
+
+function update(){
+    // cleaner le canvas pour l'effet de traine
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMatrix(currentElement.matrix, currentElement.pos);
+    requestAnimationFrame(update);
+}
+...
+// apelle de la fonction en fin de fichier
+update();
 ```
