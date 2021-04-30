@@ -37,9 +37,14 @@ let currentElement = {
     matrix: matrix,
 }
 
+
+
+
 function update(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMatrix(currentElement.matrix, currentElement.pos);
+    let elapsedTime = false;
+    
     requestAnimationFrame(update);
 }
 
@@ -48,18 +53,29 @@ function update(){
  */
  document.addEventListener('keydown', (e)=>{
     if( e.key == "ArrowLeft" ){
-        console.log("before left pressed:", currentElement.pos.x);
        currentElement.pos.x--;
-       console.log("left pressed", currentElement.pos.x);
     } else if(e.key == "ArrowRight"){
        currentElement.pos.x++
-       console.log("right pressed", currentElement.pos.x);
     } else if(e.key == "ArrowDown"){
        currentElement.pos.y++;
     } else if(e.key == " "){
         console.log(" rotaion de la pièce");
     }
 });
+/**
+ * block goes down
+ */
+function goDown(time){
+    let initialState = 0;
+    setInterval(()=>{
+        initialState++;
+        if(initialState === 1){
+            initialState = 0;
+            currentElement.pos.y++;
+        } 
+    }, time);
+}
 
 update();
+goDown(2000);
 
