@@ -56,7 +56,7 @@ function drawMatrix(matrix, offset){
 
 drawMatrix(matrix, {x:5,y:5});
 ```
-## Keyhandler
+## Keyhandler pour bouger la piece
 ecouter des evenements du clavier sur des touches définies pour permettre la rotation des pieces.
 Un `console.log` de l'evenemment pour avoir le `keycode` des touches utilsées.
 
@@ -134,4 +134,24 @@ function update(){
 ...
 // apelle de la fonction en fin de fichier
 update();
+```
+## chute automatique
+
+Chaque seconde la piece doit descendre sa position en y d'une ligne, il faut donc incrémenter de 1 pour chaque seconde écoulée:
+```js
+currentElement.pos.y++
+```
+- Première étape :
+
+Récupérer dans un timer la seconde courant, puis remettre le timer à zéro une fois le temps écoulé.
+
+Le temps courant est récupérable dans update, car la fonction est appellée de façon récursive avec requestAnimationFrame chaque milliseconde
+```js
+// time valeur par defaut à zéro comme aucun argment passé lors de l'appel
+function update(time = 0){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMatrix(currentElement.matrix, currentElement.pos);
+    console.log(Math.round(time / 1000));
+    requestAnimationFrame(update);
+}
 ```
