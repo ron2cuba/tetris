@@ -144,14 +144,17 @@ currentElement.pos.y++
 - Première étape :
 
 Récupérer dans un timer la seconde courant, puis remettre le timer à zéro une fois le temps écoulé.
-
-Le temps courant est récupérable dans update, car la fonction est appellée de façon récursive avec requestAnimationFrame chaque milliseconde
 ```js
-// time valeur par defaut à zéro comme aucun argment passé lors de l'appel
-function update(time = 0){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawMatrix(currentElement.matrix, currentElement.pos);
-    console.log(Math.round(time / 1000));
-    requestAnimationFrame(update);
+function goDown(time){
+    // init de l'état à zéro
+    let initialState = 0;
+    setInterval(()=>{
+        // incrémentation
+        initialState++;
+        if(initialState === 1){// check de l'égalité pour remise a zéro
+            initialState = 0;
+            currentElement.pos.y++; // on descend le block
+        } 
+    }, time);//cete variable servira pour modifier la vitesse de descente
 }
 ```

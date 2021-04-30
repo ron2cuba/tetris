@@ -75,7 +75,14 @@ function goDown(time){
         } 
     }, time);
 }
+/**
+ * detect side collision
+ */
+function sideCollissionDetection(){
+    console.log('yep');
+}
 
 update();
 goDown(2000);
+sideCollissionDetection();
 
